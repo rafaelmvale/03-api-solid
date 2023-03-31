@@ -1,25 +1,23 @@
 import fastify from 'fastify'
-import { z } from 'zod'
-import { prisma } from './lib/prisma'
+import { ZodError } from 'zod'
+import { env } from './env'
+import { appRoutes } from './http/routes'
 
 export const app = fastify()
 
-app.post('/users', async (request, reply) => {
-  const registerBodySchema = z.object({
-    name: z.string(),
-    email: z.string(),
-    password: z.string().min(6),
-  })
+app.register(appRoutes)
 
-  const { name, email, password } = registerBodySchema.parse(request.body)
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply
+      .status(400)
+      .send({ message: 'Validation errors', issues: error.format() })
+  }
 
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-      password_hash: password,
-    },
-  })
-
-  return reply.status(201).send()
+  if (env.NODE_ENV !== 'production') {
+    console.error(error)
+  } else {
+    // aplicar logs para produção (Datadog e etc)
+  }
+  return reply.status(500).send({ messsage: 'Internal server error' })
 })
