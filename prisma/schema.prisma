@@ -13,7 +13,7 @@ model User {
   email         String    @unique
   password_hash String
   created_at    DateTime  @default(now())
-  CheckIns      CheckIn[]
+  checkIns      CheckIn[]
 
   @@map("users")
 }
@@ -39,7 +39,7 @@ model Gym {
   phone       String?
   latitude    Decimal
   longitude   Decimal
-  CheckIns    CheckIn[]
+  checkIns    CheckIn[]
 
   @@map("gyms")
 }

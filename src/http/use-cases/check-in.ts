@@ -1,5 +1,5 @@
-import { CheckIn } from '@prisma/client'
 import { CheckInsRepository } from '@/repositories/check-ins-repository'
+import { CheckIn } from '@prisma/client'
 
 interface ChekInUseCaseRequest {
   userId: string
@@ -17,6 +17,15 @@ export class CheckInUseCase {
     userId,
     gymId,
   }: ChekInUseCaseRequest): Promise<ChekInUseCaseResponse> {
+    const checkInOnSameDay = await this.checkInsRepoitory.findByUserIdOnDate(
+      userId,
+      new Date(),
+    )
+
+    if (checkInOnSameDay) {
+      throw new Error()
+    }
+
     const checkIn = await this.checkInsRepoitory.create({
       gym_id: gymId,
       user_id: userId,
