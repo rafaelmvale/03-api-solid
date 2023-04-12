@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
-import { UserAlreadyExistsError } from '../use-cases/errors/users-already-exists-error'
-import { makeAuthenticateUseCase } from '../use-cases/factories/make-authenticate-use-case'
+import { UserAlreadyExistsError } from '../../use-cases/errors/users-already-exists-error'
+import { makeAuthenticateUseCase } from '../../use-cases/factories/make-authenticate-use-case'
 
 export async function authenticate(
   request: FastifyRequest,
