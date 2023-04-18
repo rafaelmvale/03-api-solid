@@ -7,11 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//rodar npx prisma migrate dev para que possa entrar numa nova migrate nesta opção
+// nome da migration => add role to users
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 model User {
   id            String    @id @default(uuid())
   name          String
   email         String    @unique
   password_hash String
+  role          Role      @default(MEMBER)
   created_at    DateTime  @default(now())
   checkIns      CheckIn[]
 
