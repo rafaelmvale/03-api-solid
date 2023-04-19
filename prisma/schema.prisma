@@ -7,9 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//rodar npx prisma migrate dev para que possa entrar numa nova migrate nesta opção
-// nome da migration => add role to users
-
 enum Role {
   ADMIN
   MEMBER
